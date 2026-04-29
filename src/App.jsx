@@ -6,6 +6,8 @@ import Chat from './components/Chat';
 import Quiz from './components/Quiz';
 import Glossary from './components/Glossary';
 import { INITIAL_STEPS, INITIAL_QUIZ, INITIAL_GLOSSARY } from './data/electionData';
+import { stopSpeaking } from './utils/speech';
+import { VolumeX } from 'lucide-react';
 import axios from 'axios';
 
 function App() {
@@ -146,6 +148,15 @@ function App() {
           <Glossary glossary={glossary} title={navContent.glossary} lang={lang} />
         </section>
       )}
+
+      <button 
+        className="floating-stop-btn" 
+        onClick={stopSpeaking}
+        title="Stop Audio"
+        aria-label="Stop Audio"
+      >
+        <VolumeX size={18} /> Stop Audio
+      </button>
     </div>
   );
 }
