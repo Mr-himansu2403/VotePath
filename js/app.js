@@ -21,7 +21,9 @@ function showView(view) {
   glossEl.classList.toggle('active', view === 'glossary');
 
   document.querySelectorAll('.nav-tab').forEach((t, i) => {
-    t.classList.toggle('active', ['main','quiz','glossary'][i] === view);
+    const isActive = ['main', 'quiz', 'glossary'][i] === view;
+    t.classList.toggle('active', isActive);
+    t.setAttribute('aria-selected', isActive ? 'true' : 'false');
   });
 
   if (view === 'main' && !document.getElementById('stepsContainer').children.length) {
@@ -78,15 +80,15 @@ function renderStep(idx) {
   document.getElementById('detailSub').textContent = s.subtitle;
 
   let html = '';
-  s.sections.forEach(sec => {
+  s.sections.forEach((sec) => {
     html += `<div class="detail-section">
       <div class="detail-section-title">${sec.title}</div>
-      <ul class="detail-list">${sec.items.map(it => `<li>${it}</li>`).join('')}</ul>
+      <ul class="detail-list">${sec.items.map((it) => `<li>${it}</li>`).join('')}</ul>
     </div>`;
   });
   html += `<div class="detail-section">
     <div class="detail-section-title">Key Terms</div>
-    <div class="detail-chips">${s.chips.map(c => `<span class="chip">${c}</span>`).join('')}</div>
+    <div class="detail-chips">${s.chips.map((c) => `<span class="chip">${c}</span>`).join('')}</div>
   </div>`;
 
   const content = document.getElementById('detailContent');
@@ -128,7 +130,9 @@ function renderQuiz() {
   `;
   quizAnswered = false;
   document.getElementById('quizStatus').textContent = `Question ${quizIndex + 1} of ${QUIZ.length}`;
-  card.classList.remove('animate-in'); void card.offsetWidth; card.classList.add('animate-in');
+  card.classList.remove('animate-in');
+  void card.offsetWidth;
+  card.classList.add('animate-in');
 }
 
 function answerQuiz(idx) {
@@ -153,10 +157,14 @@ function nextQuestion() {
 
 function showScore() {
   const pct = Math.round((quizScore / QUIZ.length) * 100);
-  const msg = pct === 100 ? "Perfect! 🏆 You're an election expert!" :
-              pct >= 75  ? "Excellent! 🌟 You know your democracy well." :
-              pct >= 50  ? "Good job! 📚 Keep learning about elections." :
-                           "Keep studying! 📖 Democracy rewards informed citizens.";
+  const msg =
+    pct === 100
+      ? "Perfect! 🏆 You're an election expert!"
+      : pct >= 75
+        ? 'Excellent! 🌟 You know your democracy well.'
+        : pct >= 50
+          ? 'Good job! 📚 Keep learning about elections.'
+          : 'Keep studying! 📖 Democracy rewards informed citizens.';
   document.getElementById('quizCard').innerHTML = `
     <div class="quiz-score">
       <div style="font-size:3rem;margin-bottom:1rem;">🗳️</div>
@@ -167,11 +175,14 @@ function showScore() {
       <button class="btn-primary" onclick="restartQuiz()">Take Quiz Again</button>
     </div>
   `;
-  document.getElementById('quizStatus').textContent = `Completed · ${quizScore}/${QUIZ.length} correct`;
+  document.getElementById('quizStatus').textContent =
+    `Completed · ${quizScore}/${QUIZ.length} correct`;
 }
 
 function restartQuiz() {
-  quizIndex = 0; quizScore = 0; quizAnswered = false;
+  quizIndex = 0;
+  quizScore = 0;
+  quizAnswered = false;
   renderQuiz();
 }
 
@@ -184,7 +195,7 @@ function renderGlossary() {
   GLOSSARY.forEach((g, i) => {
     const div = document.createElement('div');
     div.className = 'gloss-card animate-in';
-    div.style.animationDelay = (i * 0.04) + 's';
+    div.style.animationDelay = i * 0.04 + 's';
     div.innerHTML = `
       <div class="gloss-term">${g.term}</div>
       <div class="gloss-def">${g.def}</div>
@@ -216,8 +227,8 @@ async function sendMessage() {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        messages: chatHistory.slice(-10)
-      })
+        messages: chatHistory.slice(-10),
+      }),
     });
 
     removeTyping(typingId);
@@ -230,7 +241,10 @@ async function sendMessage() {
     addMsg('ai', reply);
   } catch (e) {
     removeTyping(typingId);
-    addMsg('ai', "⚠️ I'm having trouble connecting to my knowledge base right now. Please check your internet connection and try again! In the meantime, explore the Timeline and Glossary sections above.");
+    addMsg(
+      'ai',
+      "⚠️ I'm having trouble connecting to my knowledge base right now. Please check your internet connection and try again! In the meantime, explore the Timeline and Glossary sections above."
+    );
   }
 
   document.getElementById('sendBtn').disabled = false;
@@ -254,7 +268,8 @@ function addTyping() {
   const box = document.getElementById('chatMessages');
   const id = 'typing-' + Date.now();
   const div = document.createElement('div');
-  div.className = 'msg ai'; div.id = id;
+  div.className = 'msg ai';
+  div.id = id;
   div.innerHTML = `<div class="msg-avatar ai">🤖</div><div class="msg-bubble" style="padding:6px 12px"><div class="typing-indicator"><div class="typing-dot"></div><div class="typing-dot"></div><div class="typing-dot"></div></div></div>`;
   box.appendChild(div);
   box.scrollTop = box.scrollHeight;
@@ -267,7 +282,10 @@ function removeTyping(id) {
 }
 
 function handleKey(e) {
-  if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage(); }
+  if (e.key === 'Enter' && !e.shiftKey) {
+    e.preventDefault();
+    sendMessage();
+  }
 }
 
 function sendQuickPrompt(text) {
@@ -279,7 +297,9 @@ function sendQuickPrompt(text) {
    INIT
 ══════════════════════════════════════════════ */
 // Tag colors
-document.head.insertAdjacentHTML('beforeend', `<style>
+document.head.insertAdjacentHTML(
+  'beforeend',
+  `<style>
 .tag-key { background: rgba(245,158,11,0.12); color: #f59e0b; }
 .tag-legal { background: rgba(139,92,246,0.12); color: #a78bfa; }
 .tag-civic { background: rgba(20,184,166,0.12); color: #2dd4bf; }
@@ -288,4 +308,5 @@ document.head.insertAdjacentHTML('beforeend', `<style>
 .gloss-badge.tag-legal { color: #a78bfa; border-color: rgba(139,92,246,0.4); }
 .gloss-badge.tag-civic { color: #2dd4bf; border-color: rgba(20,184,166,0.4); }
 .gloss-badge.tag-key { color: #f59e0b; border-color: rgba(245,158,11,0.4); }
-</style>`);
+</style>`
+);

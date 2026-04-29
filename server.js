@@ -33,11 +33,16 @@ Be conversational, use simple language, and occasionally use relevant emojis. Fo
 
 app.post('/api/chat', async (req, res) => {
   const { messages } = req.body;
+
+  if (!messages || !Array.isArray(messages) || messages.length === 0) {
+    return res.status(400).json({ error: 'Invalid request: messages array is required' });
+  }
+
   console.log('Received message request...');
 
   try {
     // Map existing message format to SDK format
-    const history = messages.slice(0, -1).map(msg => ({
+    const history = messages.slice(0, -1).map((msg) => ({
       role: msg.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: msg.content }],
     }));
@@ -56,9 +61,9 @@ app.post('/api/chat', async (req, res) => {
     res.json({
       content: [
         {
-          text: responseText
-        }
-      ]
+          text: responseText,
+        },
+      ],
     });
   } catch (error) {
     console.error('Server Error:', error);
@@ -66,6 +71,10 @@ app.post('/api/chat', async (req, res) => {
   }
 });
 
-app.listen(PORT, () => {
-  console.log(`Server running on http://localhost:${PORT}`);
-});
+if (require.main === module) {
+  app.listen(PORT, () => {
+    console.log(`Server running on http://localhost:${PORT}`);
+  });
+}
+
+module.exports = app;

@@ -1,160 +1,196 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
-<head>
-<meta charset="UTF-8"/>
-<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-<title>VotePath — Your Democratic Journey Guide</title>
-<link rel="stylesheet" href="css/style.css">
-</head>
-<body>
-<div class="bg-grid"></div>
-<div class="bg-orb orb-1"></div>
-<div class="bg-orb orb-2"></div>
-<div class="bg-orb orb-3"></div>
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>VotePath — Your Democratic Journey Guide</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <div class="bg-grid"></div>
+    <div class="bg-orb orb-1"></div>
+    <div class="bg-orb orb-2"></div>
+    <div class="bg-orb orb-3"></div>
 
-<div id="app">
-  <!-- NAV -->
-  <nav>
-    <a class="nav-brand" href="#" onclick="showView('hero')">
-      <span class="dot"></span>
-      VotePath
-    </a>
-    <div class="nav-tabs" id="navTabs">
-      <button class="nav-tab" onclick="showView('main')">📋 Timeline</button>
-      <button class="nav-tab" onclick="showView('quiz')">🧠 Quiz</button>
-      <button class="nav-tab" onclick="showView('glossary')">📖 Glossary</button>
-    </div>
-  </nav>
-
-  <!-- ─── HERO VIEW ─── -->
-  <section id="hero-view">
-    <div class="hero-badge">🇮🇳 India General Election Guide · AI-Powered</div>
-    <h1 class="hero-title">Understand Democracy,<br><em>One Step at a Time</em></h1>
-    <p class="hero-sub">An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.</p>
-    <div class="hero-actions">
-      <button class="btn-primary" onclick="showView('main')">
-        🗳️ Explore the Journey
-      </button>
-      <button class="btn-secondary" onclick="showView('quiz')">
-        🧠 Test Your Knowledge
-      </button>
-    </div>
-    <div class="hero-stats">
-      <div class="stat">
-        <div class="stat-num">97 Cr</div>
-        <div class="stat-label">Registered Voters</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">10</div>
-        <div class="stat-label">Election Phases</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">543</div>
-        <div class="stat-label">Lok Sabha Seats</div>
-      </div>
-      <div class="stat">
-        <div class="stat-num">45+</div>
-        <div class="stat-label">Days Process</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- ─── MAIN VIEW (TIMELINE + CHAT) ─── -->
-  <section id="main-view">
-    <!-- LEFT: Timeline -->
-    <div class="timeline-panel">
-      <div class="panel-header">
-        <div class="panel-icon blue">🗓️</div>
-        <div>
-          <div class="panel-title">Election Roadmap</div>
-          <div class="panel-sub">India's democratic process, step by step</div>
+    <div id="app">
+      <!-- NAV -->
+      <nav>
+        <a class="nav-brand" href="#" onclick="showView('hero')">
+          <span class="dot"></span>
+          VotePath
+        </a>
+        <div class="nav-tabs" id="navTabs" role="tablist">
+          <button class="nav-tab" onclick="showView('main')" role="tab" aria-selected="false">📋 Timeline</button>
+          <button class="nav-tab" onclick="showView('quiz')" role="tab" aria-selected="false">🧠 Quiz</button>
+          <button class="nav-tab" onclick="showView('glossary')" role="tab" aria-selected="false">📖 Glossary</button>
         </div>
-      </div>
-      <div style="padding: 0 4px;">
-        <div class="progress-track">
-          <div class="progress-fill" id="progressBar" style="width:10%"></div>
-        </div>
-        <div class="progress-label" id="progressLabel">Step 1 of 10</div>
-      </div>
-      <div class="steps-container" id="stepsContainer"></div>
-    </div>
+        </nav>
 
-    <!-- RIGHT: Detail + Chat -->
-    <div class="right-panel">
-      <!-- Step Detail -->
-      <div class="detail-card" id="detailCard">
-        <div class="detail-header">
-          <div class="detail-step-num" id="detailNum">STEP 01</div>
-          <div class="detail-step-title" id="detailTitle">Election Announcement</div>
-          <div class="detail-step-sub" id="detailSub">The Election Commission of India sets the stage.</div>
+        <!-- ─── HERO VIEW ─── -->
+        <section id="hero-view" aria-labelledby="hero-title">
+        <div class="hero-badge">🇮🇳 India General Election Guide · AI-Powered</div>
+        <h1 class="hero-title" id="hero-title">Understand Democracy,<br><em>One Step at a Time</em></h1>
+        <p class="hero-sub">An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.</p>
+        <div class="hero-actions">
+          <button class="btn-primary" onclick="showView('main')" aria-label="Explore the election journey">
+            🗳️ Explore the Journey
+          </button>
+          <button class="btn-secondary" onclick="showView('quiz')" aria-label="Take the knowledge quiz">
+            🧠 Test Your Knowledge
+          </button>
         </div>
-        <div class="detail-body">
-          <div id="detailContent"></div>
-          <div class="timeline-nav" style="margin-top:1rem;">
-            <button class="btn-nav" id="btnPrev" onclick="navigate(-1)">← Previous</button>
-            <button class="btn-nav" id="btnNext" onclick="navigate(1)">Next →</button>
+        <div class="hero-stats">
+          <div class="stat">
+            <div class="stat-num">97 Cr</div>
+            <div class="stat-label">Registered Voters</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">10</div>
+            <div class="stat-label">Election Phases</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">543</div>
+            <div class="stat-label">Lok Sabha Seats</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">45+</div>
+            <div class="stat-label">Days Process</div>
           </div>
         </div>
-      </div>
+      </section>
 
-      <!-- AI Chat -->
-      <div class="chat-panel">
-        <div class="chat-top">
-          <div class="ai-avatar">🤖</div>
-          <div style="flex:1">
-            <div class="ai-name">CivicAI</div>
-            <div class="ai-status">Online · Election Expert</div>
+      <!-- ─── MAIN VIEW (TIMELINE + CHAT) ─── -->
+      <section id="main-view">
+        <!-- LEFT: Timeline -->
+        <div class="timeline-panel">
+          <div class="panel-header">
+            <div class="panel-icon blue">🗓️</div>
+            <div>
+              <div class="panel-title">Election Roadmap</div>
+              <div class="panel-sub">India's democratic process, step by step</div>
+            </div>
           </div>
-          <div style="font-size:0.72rem; color:var(--text-muted);">Ask anything about elections</div>
+          <div style="padding: 0 4px">
+            <div class="progress-track">
+              <div class="progress-fill" id="progressBar" style="width: 10%"></div>
+            </div>
+            <div class="progress-label" id="progressLabel">Step 1 of 10</div>
+          </div>
+          <div class="steps-container" id="stepsContainer"></div>
         </div>
-        <div class="quick-prompts" id="quickPrompts">
-          <span class="qp" onclick="sendQuickPrompt('How do I register to vote in India?')">🪪 Register to vote</span>
-          <span class="qp" onclick="sendQuickPrompt('What is the Model Code of Conduct?')">📜 Model Code</span>
-          <span class="qp" onclick="sendQuickPrompt('How does EVM voting work?')">🗳️ EVM process</span>
-          <span class="qp" onclick="sendQuickPrompt('Who is eligible to be a candidate?')">👤 Candidate rules</span>
-        </div>
-        <div class="chat-messages" id="chatMessages">
-          <div class="msg ai">
-            <div class="msg-avatar ai">🤖</div>
-            <div class="msg-bubble">Namaste! 🙏 I'm CivicAI, your election guide. I can explain India's election process, voter rights, candidate rules, EVMs, and much more. What would you like to know?</div>
+
+        <!-- RIGHT: Detail + Chat -->
+        <div class="right-panel">
+          <!-- Step Detail -->
+          <div class="detail-card" id="detailCard">
+            <div class="detail-header">
+              <div class="detail-step-num" id="detailNum">STEP 01</div>
+              <div class="detail-step-title" id="detailTitle">Election Announcement</div>
+              <div class="detail-step-sub" id="detailSub">
+                The Election Commission of India sets the stage.
+              </div>
+            </div>
+            <div class="detail-body">
+              <div id="detailContent"></div>
+              <div class="timeline-nav" style="margin-top: 1rem">
+                <button class="btn-nav" id="btnPrev" onclick="navigate(-1)">← Previous</button>
+                <button class="btn-nav" id="btnNext" onclick="navigate(1)">Next →</button>
+              </div>
+            </div>
+          </div>
+
+          <!-- AI Chat -->
+          <div class="chat-panel">
+            <div class="chat-top">
+              <div class="ai-avatar">🤖</div>
+              <div style="flex: 1">
+                <div class="ai-name">CivicAI</div>
+                <div class="ai-status">Online · Election Expert</div>
+              </div>
+              <div style="font-size: 0.72rem; color: var(--text-muted)">
+                Ask anything about elections
+              </div>
+            </div>
+            <div class="quick-prompts" id="quickPrompts">
+              <span class="qp" onclick="sendQuickPrompt('How do I register to vote in India?')"
+                >🪪 Register to vote</span
+              >
+              <span class="qp" onclick="sendQuickPrompt('What is the Model Code of Conduct?')"
+                >📜 Model Code</span
+              >
+              <span class="qp" onclick="sendQuickPrompt('How does EVM voting work?')"
+                >🗳️ EVM process</span
+              >
+              <span class="qp" onclick="sendQuickPrompt('Who is eligible to be a candidate?')"
+                >👤 Candidate rules</span
+              >
+            </div>
+            <div class="chat-messages" id="chatMessages">
+              <div class="msg ai">
+                <div class="msg-avatar ai">🤖</div>
+                <div class="msg-bubble">
+                  Namaste! 🙏 I'm CivicAI, your election guide. I can explain India's election
+                  process, voter rights, candidate rules, EVMs, and much more. What would you like
+                  to know?
+                </div>
+              </div>
+            </div>
+            <div class="chat-input-area">
+              <input
+                class="chat-input"
+                id="chatInput"
+                placeholder="Ask about elections, voting rights, process..."
+                onkeydown="handleKey(event)"
+              />
+              <button class="btn-send" id="sendBtn" onclick="sendMessage()">➤</button>
+            </div>
           </div>
         </div>
-        <div class="chat-input-area">
-          <input class="chat-input" id="chatInput" placeholder="Ask about elections, voting rights, process..." onkeydown="handleKey(event)"/>
-          <button class="btn-send" id="sendBtn" onclick="sendMessage()">➤</button>
+      </section>
+
+      <!-- ─── QUIZ VIEW ─── -->
+      <section id="quiz-view">
+        <div class="quiz-wrap">
+          <div class="view-header">
+            <div class="view-heading">Election Quiz</div>
+            <div class="view-subheading">Test your knowledge of India's democratic process</div>
+          </div>
+          <div class="quiz-card" id="quizCard">
+            <!-- Populated by JS -->
+          </div>
+          <div
+            style="
+              display: flex;
+              justify-content: space-between;
+              align-items: center;
+              padding: 0 4px;
+            "
+          >
+            <div style="font-size: 0.85rem; color: var(--text-muted)" id="quizStatus">
+              Question 1 of 8
+            </div>
+            <button
+              class="btn-secondary"
+              style="padding: 0.5rem 1.25rem; font-size: 0.85rem"
+              onclick="restartQuiz()"
+            >
+              ↺ Restart
+            </button>
+          </div>
         </div>
-      </div>
-    </div>
-  </section>
+      </section>
 
-  <!-- ─── QUIZ VIEW ─── -->
-  <section id="quiz-view">
-    <div class="quiz-wrap">
-      <div class="view-header">
-        <div class="view-heading">Election Quiz</div>
-        <div class="view-subheading">Test your knowledge of India's democratic process</div>
-      </div>
-      <div class="quiz-card" id="quizCard">
-        <!-- Populated by JS -->
-      </div>
-      <div style="display:flex; justify-content:space-between; align-items:center; padding:0 4px;">
-        <div style="font-size:0.85rem; color:var(--text-muted);" id="quizStatus">Question 1 of 8</div>
-        <button class="btn-secondary" style="padding:0.5rem 1.25rem; font-size:0.85rem;" onclick="restartQuiz()">↺ Restart</button>
-      </div>
+      <!-- ─── GLOSSARY VIEW ─── -->
+      <section id="glossary-view">
+        <div class="view-header">
+          <div class="view-heading">Election Glossary</div>
+          <div class="view-subheading">Key terms explained in simple language</div>
+        </div>
+        <div class="glossary-grid" id="glossaryGrid"></div>
+      </section>
     </div>
-  </section>
 
-  <!-- ─── GLOSSARY VIEW ─── -->
-  <section id="glossary-view">
-    <div class="view-header">
-      <div class="view-heading">Election Glossary</div>
-      <div class="view-subheading">Key terms explained in simple language</div>
-    </div>
-    <div class="glossary-grid" id="glossaryGrid"></div>
-  </section>
-</div>
-
-<script src="js/data.js"></script>
-<script src="js/app.js"></script>
-</body>
+    <script src="js/data.js"></script>
+    <script src="js/app.js"></script>
+  </body>
 </html>
