@@ -9,8 +9,9 @@ VotePath focuses on empowering citizens with accurate, neutral, and easily acces
 ## 🛠️ Approach and Logic
 
 ### 1. Architectural Overview
-- **Frontend:** Built with **Vanilla HTML5, CSS3, and JavaScript**. This ensures maximum performance, broad browser compatibility, and ease of maintenance without heavy framework overhead.
-- **Backend:** A **Node.js/Express** server that handles static file hosting and provides a secure, validated API endpoint for the AI assistant.
+- **Frontend:** Built with **React 18** and **Vite**. This ensures a highly responsive user experience, robust state management for multi-language support, and modular component architecture.
+- **Styling:** Utilizes modern CSS with **Framer Motion** for smooth, professional animations.
+- **Backend:** A **Node.js/Express** server that handles production build hosting and provides a secure, validated API endpoint for the AI assistant.
 - **AI Integration:** Utilizes the **Google Generative AI SDK** (Gemini 1.5 Flash) for high-speed, intelligent natural language processing.
 
 ### 2. Core Features
@@ -18,6 +19,7 @@ VotePath focuses on empowering citizens with accurate, neutral, and easily acces
 - **Interactive Quiz:** A dynamic knowledge check with instant feedback and explanations to reinforce civic learning.
 - **CivicAI Assistant:** A context-aware chatbot specifically tuned with system instructions to provide politically neutral, accurate information about ECI functions, voter rights, and technology like EVM/VVPAT.
 - **Glossary:** A quick-reference guide for complex electoral terminology.
+- **Comprehensive Multi-language Support:** Supports 13+ Indian languages (including Odia, Hindi, Bengali, etc.) with full-site content translation powered by Gemini AI.
 
 ### 3. Engineering Excellence
 - **Security:** Implemented server-side input validation and secure environment variable management for API keys.
@@ -27,11 +29,13 @@ VotePath focuses on empowering citizens with accurate, neutral, and easily acces
 
 ## 🚀 How the Solution Works
 
-1.  **Launch:** Run `npm start` to host the application on `http://localhost:3000`.
-2.  **Explore:** Navigate through the "Election Roadmap" to understand the sequential steps of an election.
-3.  **Learn:** Use the "Glossary" for quick definitions of terms like MCC, EPIC, and NOTA.
-4.  **Test:** Take the interactive quiz to evaluate your understanding of Indian democracy.
-5.  **Ask:** Interact with "CivicAI" for any specific questions. The backend pipes your query to Gemini 1.5 Flash with a specialized "Civic Guide" persona.
+1.  **Launch:** Run `npm start` to host the production-built application on `http://localhost:3000`.
+2.  **Development:** Run `npm run dev` to start the Vite development server.
+3.  **Build:** Run `npm run build` to generate the production-ready assets in the `dist/` folder.
+4.  **Explore:** Navigate through the "Election Roadmap" to understand the sequential steps of an election.
+5.  **Learn:** Use the "Glossary" for quick definitions of terms like MCC, EPIC, and NOTA.
+6.  **Test:** Take the interactive quiz to evaluate your understanding of Indian democracy.
+7.  **Ask:** Interact with "CivicAI" for any specific questions. The backend pipes your query to Gemini 1.5 Flash with a specialized "Civic Guide" persona.
 
 ## 📋 Assumptions Made
 
