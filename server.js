@@ -28,7 +28,34 @@ const model = genAI.getGenerativeModel({
 - Election Commission of India (ECI) functions
 - General election stats and facts
 
-Be conversational, use simple language, and occasionally use relevant emojis. For complex processes, use numbered steps. Keep responses concise (3-5 sentences or a short list). Always be politically neutral.`,
+Be conversational, use simple language, and occasionally use relevant emojis. For complex processes, use numbered steps. Keep responses concise (3-5 sentences or a short list). Always be politically neutral.
+IMPORTANT: You MUST respond in the same language as the user's query. If they ask in Hindi, reply in Hindi. If they ask in English, reply in English. This is crucial for accessibility.`,
+});
+
+app.post('/api/translate', async (req, res) => {
+  const { text, targetLang } = req.body;
+  if (!text || !targetLang) {
+    return res.status(400).json({ error: 'Text and targetLang are required' });
+  }
+
+  try {
+    const translationModel = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
+    const prompt = `Translate the following JSON object values to ${targetLang}. Keep the keys exactly the same. Only return the translated JSON object.
+    
+    JSON: ${JSON.stringify(text)}`;
+
+    const result = await translationModel.generateContent(prompt);
+    const response = await result.response;
+    let translatedText = response.text();
+    
+    // Clean up potential markdown formatting from AI
+    translatedText = translatedText.replace(/```json|```/g, '').trim();
+    
+    res.json(JSON.parse(translatedText));
+  } catch (error) {
+    console.error('Translation Error:', error);
+    res.status(500).json({ error: 'Translation failed', details: error.message });
+  }
 });
 
 app.post('/api/chat', async (req, res) => {

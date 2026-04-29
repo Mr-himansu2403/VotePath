@@ -143,9 +143,22 @@ nav {
   }
 }
 
-.nav-tabs {
-  display: flex;
-  gap: 0;
+.nav-tabs { display: flex; gap: 0; }
+.nav-lang { margin-left: 1rem; }
+.lang-select {
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border);
+  color: var(--text-primary);
+  border-radius: 8px;
+  padding: 4px 8px;
+  font-size: 0.8rem;
+  font-family: 'DM Sans', sans-serif;
+  outline: none;
+  cursor: pointer;
+}
+.lang-select option {
+  background: var(--bg-deep);
+  color: var(--text-primary);
 }
 .nav-tab {
   padding: 0.4rem 1rem;

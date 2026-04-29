@@ -24,8 +24,21 @@
           <button class="nav-tab" onclick="showView('quiz')" role="tab" aria-selected="false">🧠 Quiz</button>
           <button class="nav-tab" onclick="showView('glossary')" role="tab" aria-selected="false">📖 Glossary</button>
         </div>
+        <div class="nav-lang">
+          <select id="langSelect" onchange="changeLanguage()" aria-label="Select Language" class="lang-select">
+            <option value="en">English</option>
+            <option value="hi">हिन्दी (Hindi)</option>
+            <option value="bn">বাংলা (Bengali)</option>
+            <option value="te">తెలుగు (Telugu)</option>
+            <option value="mr">मराठी (Marathi)</option>
+            <option value="ta">தமிழ் (Tamil)</option>
+            <option value="gu">ગુજરાતી (Gujarati)</option>
+            <option value="kn">ಕನ್ನಡ (Kannada)</option>
+            <option value="ml">മലയാളം (Malayalam)</option>
+            <option value="pa">ਪੰਜਾਬੀ (Punjabi)</option>
+          </select>
+        </div>
         </nav>
-
         <!-- ─── HERO VIEW ─── -->
         <section id="hero-view" aria-labelledby="hero-title">
         <div class="hero-badge">🇮🇳 India General Election Guide · AI-Powered</div>

@@ -6,6 +6,61 @@ let quizIndex = 0;
 let quizScore = 0;
 let quizAnswered = false;
 let chatHistory = [];
+let currentLang = 'en';
+let translations = {};
+
+/* ══════════════════════════════════════════════
+   LANGUAGE MANAGEMENT
+══════════════════════════════════════════════ */
+async function changeLanguage() {
+  const select = document.getElementById('langSelect');
+  const lang = select.value;
+  if (lang === currentLang) return;
+
+  currentLang = lang;
+  
+  if (lang === 'en') {
+    location.reload(); // Quickest way to reset to English
+    return;
+  }
+
+  // Show loading state or similar if needed
+  try {
+    const res = await fetch('/api/translate', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        text: {
+          heroTitle: "Understand Democracy, One Step at a Time",
+          heroSub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
+          exploreBtn: "Explore the Journey",
+          testBtn: "Test Your Knowledge",
+          timelineTab: "Timeline",
+          quizTab: "Quiz",
+          glossaryTab: "Glossary"
+        },
+        targetLang: lang
+      })
+    });
+    
+    const data = await res.json();
+    applyTranslations(data);
+  } catch (e) {
+    console.error("Translation failed", e);
+  }
+}
+
+function applyTranslations(data) {
+  if (data.heroTitle) document.getElementById('hero-title').innerText = data.heroTitle;
+  if (data.heroSub) document.querySelector('.hero-sub').innerText = data.heroSub;
+  if (data.exploreBtn) document.querySelector('.btn-primary').innerText = "🗳️ " + data.exploreBtn;
+  if (data.testBtn) document.querySelector('.btn-secondary').innerText = "🧠 " + data.testBtn;
+  
+  const tabs = document.querySelectorAll('.nav-tab');
+  if (data.timelineTab) tabs[0].innerText = "📋 " + data.timelineTab;
+  if (data.quizTab) tabs[1].innerText = "🧠 " + data.quizTab;
+  if (data.glossaryTab) tabs[2].innerText = "📖 " + data.glossaryTab;
+}
 
 /* ══════════════════════════════════════════════
    VIEW MANAGEMENT
