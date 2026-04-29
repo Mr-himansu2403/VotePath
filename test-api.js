@@ -5,9 +5,9 @@ async function listModels() {
   const genAI = new GoogleGenerativeAI(process.env.GEMINI_API_KEY);
   try {
     // There isn't a direct listModels in the simple SDK, but we can try to initialize and check
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-flash-latest" });
     const result = await model.generateContent("test");
-    console.log("Success with gemini-1.5-flash");
+    console.log("Success with gemini-flash-latest");
   } catch (e) {
     console.error("Flash failed:", e.message);
   }
