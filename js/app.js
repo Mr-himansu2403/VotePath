@@ -18,48 +18,102 @@ async function changeLanguage() {
   if (lang === currentLang) return;
 
   currentLang = lang;
-  
+
   if (lang === 'en') {
-    location.reload(); // Quickest way to reset to English
+    location.reload();
     return;
   }
 
-  // Show loading state or similar if needed
+  // Show a simple loading indicator
+  const originalBrand = document.querySelector('.nav-brand').innerHTML;
+  document.querySelector('.nav-brand').innerHTML = '<span class="dot"></span> Translating...';
+
   try {
     const res = await fetch('/api/translate', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
         text: {
-          heroTitle: "Understand Democracy, One Step at a Time",
-          heroSub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
-          exploreBtn: "Explore the Journey",
-          testBtn: "Test Your Knowledge",
-          timelineTab: "Timeline",
-          quizTab: "Quiz",
-          glossaryTab: "Glossary"
+          hero: {
+            title: "Understand Democracy, One Step at a Time",
+            sub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
+            exploreBtn: "Explore the Journey",
+            testBtn: "Test Your Knowledge",
+            stats: ["Registered Voters", "Election Phases", "Lok Sabha Seats", "Days Process"]
+          },
+          nav: {
+            timeline: "Timeline",
+            quiz: "Quiz",
+            glossary: "Glossary"
+          },
+          // Send original data for translation
+          steps: STEPS,
+          quiz: QUIZ,
+          glossary: GLOSSARY
         },
         targetLang: lang
       })
     });
-    
+
     const data = await res.json();
-    applyTranslations(data);
+    applyFullTranslations(data);
   } catch (e) {
     console.error("Translation failed", e);
+  } finally {
+    document.querySelector('.nav-brand').innerHTML = originalBrand;
   }
 }
 
-function applyTranslations(data) {
-  if (data.heroTitle) document.getElementById('hero-title').innerText = data.heroTitle;
-  if (data.heroSub) document.querySelector('.hero-sub').innerText = data.heroSub;
-  if (data.exploreBtn) document.querySelector('.btn-primary').innerText = "🗳️ " + data.exploreBtn;
-  if (data.testBtn) document.querySelector('.btn-secondary').innerText = "🧠 " + data.testBtn;
+function applyFullTranslations(data) {
+  // 1. Hero
+  if (data.hero) {
+    document.getElementById('hero-title').innerText = data.hero.title;
+    document.querySelector('.hero-sub').innerText = data.hero.sub;
+    document.querySelector('.btn-primary').innerText = "🗳️ " + data.hero.exploreBtn;
+    document.querySelector('.btn-secondary').innerText = "🧠 " + data.hero.testBtn;
+    const statLabels = document.querySelectorAll('.stat-label');
+    data.hero.stats.forEach((s, i) => { if (statLabels[i]) statLabels[i].innerText = s; });
+  }
+
+  // 2. Nav
+  if (data.nav) {
+    const tabs = document.querySelectorAll('.nav-tab');
+    tabs[0].innerText = "📋 " + data.nav.timeline;
+    tabs[1].innerText = "🧠 " + data.nav.quiz;
+    tabs[2].innerText = "📖 " + data.nav.glossary;
+  }
+
+  // 3. Data Objects
+  if (data.steps) {
+    // Re-assign to global STEPS (must use same reference if possible, or update usage)
+    data.steps.forEach((s, i) => { STEPS[i] = s; });
+  }
+  if (data.quiz) {
+    data.quiz.forEach((q, i) => { QUIZ[i] = q; });
+  }
+  if (data.glossary) {
+    data.glossary.forEach((g, i) => { GLOSSARY[i] = g; });
+  }
+
+  // 4. Re-render UI
+  if (currentView === 'main') {
+    buildTimeline();
+    renderStep(currentStep);
+  } else if (currentView === 'quiz') {
+    renderQuiz();
+  } else if (currentView === 'glossary') {
+    const grid = document.getElementById('glossaryGrid');
+    grid.innerHTML = ''; // Clear for re-render
+    renderGlossary();
+  }
   
-  const tabs = document.querySelectorAll('.nav-tab');
-  if (data.timelineTab) tabs[0].innerText = "📋 " + data.timelineTab;
-  if (data.quizTab) tabs[1].innerText = "🧠 " + data.quizTab;
-  if (data.glossaryTab) tabs[2].innerText = "📖 " + data.glossaryTab;
+  // 5. Update UI Static Labels (Panels)
+  if (data.nav) {
+    const titles = document.querySelectorAll('.panel-title');
+    if (titles[0]) titles[0].innerText = data.nav.timeline + " Roadmap";
+    const subs = document.querySelectorAll('.panel-sub');
+    if (subs[0]) subs[0].innerText = "India's democratic process, step by step";
+  }
 }
 
 /* ══════════════════════════════════════════════

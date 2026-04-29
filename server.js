@@ -40,16 +40,32 @@ app.post('/api/translate', async (req, res) => {
 
   try {
     const translationModel = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
-    const prompt = `Translate the following JSON object values to ${targetLang}. Keep the keys exactly the same. Only return the translated JSON object.
+    const prompt = `You are a professional translator specializing in Indian languages and electoral terminology. 
+    Translate the values in the following JSON object to ${targetLang}.
     
-    JSON: ${JSON.stringify(text)}`;
+    RULES:
+    1. Keep all JSON keys exactly the same.
+    2. Translate all string values to ${targetLang}.
+    3. For technical terms like "EVM", "VVPAT", "NOTA", "Lok Sabha", use the common transliteration or translation used in ${targetLang} official election contexts.
+    4. Maintain the exact nested structure of the JSON.
+    5. Return ONLY the valid JSON object. No markdown, no explanations.
+    
+    JSON TO TRANSLATE:
+    ${JSON.stringify(text)}`;
 
     const result = await translationModel.generateContent(prompt);
     const response = await result.response;
     let translatedText = response.text();
     
-    // Clean up potential markdown formatting from AI
-    translatedText = translatedText.replace(/```json|```/g, '').trim();
+    // Robust JSON cleaning
+    translatedText = translatedText.replace(/```json/g, '').replace(/```/g, '').trim();
+    
+    // Ensure we only have the JSON part if AI added text
+    const jsonStart = translatedText.indexOf('{');
+    const jsonEnd = translatedText.lastIndexOf('}');
+    if (jsonStart !== -1 && jsonEnd !== -1) {
+      translatedText = translatedText.substring(jsonStart, jsonEnd + 1);
+    }
     
     res.json(JSON.parse(translatedText));
   } catch (error) {
