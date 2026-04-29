@@ -87,10 +87,15 @@ app.post('/api/chat', async (req, res) => {
 
   try {
     // Map existing message format to SDK format
-    const history = messages.slice(0, -1).map((msg) => ({
+    let history = messages.slice(0, -1).map((msg) => ({
       role: msg.role === 'assistant' ? 'model' : 'user',
       parts: [{ text: msg.content }],
     }));
+
+    // Gemini requires history to start with a 'user' message
+    if (history.length > 0 && history[0].role === 'model') {
+      history = history.slice(1);
+    }
 
     const chat = model.startChat({
       history: history,

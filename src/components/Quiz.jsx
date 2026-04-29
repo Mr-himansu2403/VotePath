@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
+import { Volume2 } from 'lucide-react';
+import { speak } from '../utils/speech';
 
-const Quiz = ({ quiz }) => {
+const Quiz = ({ quiz, lang }) => {
   const [index, setIndex] = useState(0);
   const [score, setScore] = useState(0);
   const [answered, setAnswered] = useState(false);
@@ -58,7 +60,16 @@ const Quiz = ({ quiz }) => {
         <div className="view-subheading">Test your knowledge</div>
       </div>
       <div className="quiz-card animate-in" key={index}>
-        <div className="quiz-num">QUESTION {index + 1} / {quiz.length} &nbsp;·&nbsp; Score: {score}</div>
+        <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+          <div className="quiz-num">QUESTION {index + 1} / {quiz.length} &nbsp;·&nbsp; Score: {score}</div>
+          <button 
+            className="voice-btn voice-btn-sm" 
+            onClick={() => speak(`${q.q}. Options are. ${q.opts.join('. ')}`, lang)}
+            title="Listen"
+          >
+            <Volume2 size={16} />
+          </button>
+        </div>
         <div className="quiz-q">{q.q}</div>
         <div className="quiz-options">
           {q.opts.map((o, i) => (
@@ -74,7 +85,17 @@ const Quiz = ({ quiz }) => {
         </div>
         {answered && (
           <div className="quiz-explanation animate-in">
-            💡 {q.exp} <br /><br />
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+              <div>💡 {q.exp}</div>
+              <button 
+                className="voice-btn voice-btn-sm" 
+                onClick={() => speak(q.exp, lang)}
+                title="Listen to explanation"
+              >
+                <Volume2 size={14} />
+              </button>
+            </div>
+            <br />
             <button className="btn-secondary" style={{ padding: '0.4rem 1rem', fontSize: '0.8rem' }} onClick={nextQuestion}>
               Next Question →
             </button>

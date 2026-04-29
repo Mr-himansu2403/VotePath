@@ -1,5 +1,7 @@
 import React, { useState, useRef, useEffect } from 'react';
 import axios from 'axios';
+import { Volume2 } from 'lucide-react';
+import { speak } from '../utils/speech';
 
 const Chat = ({ lang }) => {
   const [messages, setMessages] = useState([
@@ -37,6 +39,10 @@ const Chat = ({ lang }) => {
     }
   };
 
+  const handleSpeak = (text) => {
+    speak(text, lang);
+  };
+
   return (
     <div className="chat-panel">
       <div className="chat-top">
@@ -58,8 +64,18 @@ const Chat = ({ lang }) => {
             <div className={`msg-avatar ${m.role === 'assistant' ? 'ai' : 'user'}`}>
               {m.role === 'assistant' ? '🤖' : '👤'}
             </div>
-            <div className="msg-bubble">
+            <div className="msg-bubble" style={{ position: 'relative' }}>
               {m.content.split('\n').map((line, j) => <React.Fragment key={j}>{line}<br/></React.Fragment>)}
+              {m.role === 'assistant' && (
+                <button 
+                  className="voice-btn voice-btn-sm" 
+                  onClick={() => handleSpeak(m.content)}
+                  style={{ position: 'absolute', right: '-35px', top: '0' }}
+                  title="Listen"
+                >
+                  <Volume2 size={16} />
+                </button>
+              )}
             </div>
           </div>
         ))}

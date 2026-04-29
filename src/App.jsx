@@ -30,18 +30,56 @@ function App() {
 
   const handleLanguageChange = async (newLang) => {
     if (newLang === 'en') {
-      window.location.reload();
+      setLang('en');
+      setHeroContent({
+        title: "Understand Democracy, One Step at a Time",
+        sub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
+        exploreBtn: "Explore the Journey",
+        testBtn: "Test Your Knowledge",
+        stats: ["Registered Voters", "Election Phases", "Lok Sabha Seats", "Days Process"]
+      });
+      setNavContent({
+        timeline: "Timeline",
+        quiz: "Quiz",
+        glossary: "Glossary"
+      });
+      setSteps(INITIAL_STEPS);
+      setQuiz(INITIAL_QUIZ);
+      setGlossary(INITIAL_GLOSSARY);
       return;
     }
     
     setLang(newLang);
+
+    // Check Cache
+    const cached = localStorage.getItem(`trans_${newLang}`);
+    if (cached) {
+      const data = JSON.parse(cached);
+      if (data.hero) setHeroContent(data.hero);
+      if (data.nav) setNavContent(data.nav);
+      if (data.steps) setSteps(data.steps);
+      if (data.quiz) setQuiz(data.quiz);
+      if (data.glossary) setGlossary(data.glossary);
+      return;
+    }
+
     setIsTranslating(true);
 
     try {
       const res = await axios.post('/api/translate', {
         text: {
-          hero: heroContent,
-          nav: navContent,
+          hero: {
+            title: "Understand Democracy, One Step at a Time",
+            sub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
+            exploreBtn: "Explore the Journey",
+            testBtn: "Test Your Knowledge",
+            stats: ["Registered Voters", "Election Phases", "Lok Sabha Seats", "Days Process"]
+          },
+          nav: {
+            timeline: "Timeline",
+            quiz: "Quiz",
+            glossary: "Glossary"
+          },
           steps: INITIAL_STEPS,
           quiz: INITIAL_QUIZ,
           glossary: INITIAL_GLOSSARY
@@ -55,6 +93,9 @@ function App() {
       if (data.steps) setSteps(data.steps);
       if (data.quiz) setQuiz(data.quiz);
       if (data.glossary) setGlossary(data.glossary);
+
+      // Save to Cache
+      localStorage.setItem(`trans_${newLang}`, JSON.stringify(data));
     } catch (e) {
       console.error("Translation failed", e);
     } finally {
@@ -83,25 +124,26 @@ function App() {
           content={heroContent} 
           onExplore={() => setCurrentView('main')} 
           onQuiz={() => setCurrentView('quiz')} 
+          lang={lang}
         />
       )}
 
       {currentView === 'main' && (
         <main className="main-view animate-in">
-          <Timeline steps={steps} />
+          <Timeline steps={steps} lang={lang} />
           <Chat lang={lang} />
         </main>
       )}
 
       {currentView === 'quiz' && (
         <section className="quiz-view animate-in">
-          <Quiz quiz={quiz} />
+          <Quiz quiz={quiz} lang={lang} />
         </section>
       )}
 
       {currentView === 'glossary' && (
         <section className="glossary-view animate-in">
-          <Glossary glossary={glossary} title={navContent.glossary} />
+          <Glossary glossary={glossary} title={navContent.glossary} lang={lang} />
         </section>
       )}
     </div>

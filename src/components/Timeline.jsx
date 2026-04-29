@@ -1,10 +1,17 @@
 import React, { useState } from 'react';
+import { Volume2 } from 'lucide-react';
+import { speak } from '../utils/speech';
 
-const Timeline = ({ steps }) => {
+const Timeline = ({ steps, lang }) => {
   const [currentStep, setCurrentStep] = useState(0);
   const s = steps[currentStep];
 
   const pct = Math.round(((currentStep + 1) / steps.length) * 100);
+
+  const handleListen = () => {
+    const textToSpeak = `${s.title}. ${s.subtitle}. ${s.sections.map(sec => `${sec.title}: ${sec.items.join(', ')}`).join('. ')}`;
+    speak(textToSpeak, lang);
+  };
 
   return (
     <>
@@ -44,10 +51,20 @@ const Timeline = ({ steps }) => {
 
       <div className="right-panel">
         <div className="detail-card animate-in" key={currentStep}>
-          <div className="detail-header">
-            <div className="detail-step-num">STEP {String(currentStep + 1).padStart(2, '0')}</div>
-            <div className="detail-step-title">{s.title}</div>
-            <div className="detail-step-sub">{s.subtitle}</div>
+          <div className="detail-header" style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div>
+              <div className="detail-step-num">STEP {String(currentStep + 1).padStart(2, '0')}</div>
+              <div className="detail-step-title">{s.title}</div>
+              <div className="detail-step-sub">{s.subtitle}</div>
+            </div>
+            <button 
+              className="voice-btn voice-btn-sm" 
+              onClick={handleListen} 
+              title="Listen"
+              aria-label="Listen to step details"
+            >
+              <Volume2 size={18} />
+            </button>
           </div>
           <div className="detail-body">
             {s.sections.map((sec, i) => (
