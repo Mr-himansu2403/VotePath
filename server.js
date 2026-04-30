@@ -2,14 +2,27 @@ require('dotenv').config();
 const express = require('express');
 const cors = require('cors');
 const { GoogleGenerativeAI } = require('@google/generative-ai');
+const rateLimit = require('express-rate-limit');
 
 const app = express();
 const PORT = process.env.PORT || 3000;
+
+// Rate limiting to prevent API abuse
+const apiLimiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+  message: { error: 'Too many requests, please try again later.' }
+});
 
 app.use(cors());
 app.use(express.json());
 app.use(express.static('dist'));
 app.use(express.static('.'));
+
+// Apply rate limiter to all /api routes
+app.use('/api/', apiLimiter);
 
 app.get('*all', (req, res, next) => {
   if (req.path.startsWith('/api')) return next();
