@@ -89,6 +89,75 @@ app.post('/api/translate', async (req, res) => {
   }
 });
 
+app.post('/api/factcheck', async (req, res) => {
+  const { claim, lang } = req.body;
+  if (!claim) return res.status(400).json({ error: 'Claim is required' });
+
+  try {
+    const factModel = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
+    const prompt = `You are CivicAI Shield, an expert fact-checker for Indian elections.
+    Verify the following claim against official Election Commission of India (ECI) rules and Indian law.
+    
+    CLAIM: "${claim}"
+    
+    RESPONSE RULES:
+    1. Provide a verdict: "Verified" (if true), "False" (if completely wrong), or "Misleading" (if partially true but lacks context).
+    2. Provide a clear, concise explanation (2-3 sentences).
+    3. You MUST respond in the language: ${lang === 'en' ? 'English' : 'the language associated with code ' + lang}.
+    4. Return ONLY a valid JSON object.
+    
+    JSON FORMAT:
+    {
+      "verdict": "Verified | False | Misleading",
+      "explanation": "..."
+    }`;
+
+    const result = await factModel.generateContent(prompt);
+    const response = await result.response;
+    let text = response.text();
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    res.json(JSON.parse(text));
+  } catch (error) {
+    console.error('FactCheck Error:', error);
+    res.status(500).json({ error: 'Fact check failed' });
+  }
+});
+
+app.post('/api/constituency', async (req, res) => {
+  const { pincode, lang } = req.body;
+  if (!pincode || !/^\d{6}$/.test(pincode)) {
+    return res.status(400).json({ error: 'Valid 6-digit Pincode is required' });
+  }
+
+  try {
+    const localModel = genAI.getGenerativeModel({ model: 'gemini-flash-latest' });
+    const prompt = `Act as a geographical database for Indian electoral constituencies.
+    For the Indian Pincode ${pincode}, identify the likely Lok Sabha (Parliamentary) constituency.
+    
+    RESPONSE RULES:
+    1. If the pincode is valid, provide the Constituency Name and State.
+    2. Provide 2 key facts about voting in that region or general voter info.
+    3. You MUST respond in the language: ${lang === 'en' ? 'English' : 'the language associated with code ' + lang}.
+    4. Return ONLY a valid JSON object.
+    
+    JSON FORMAT:
+    {
+      "name": "Constituency Name",
+      "state": "State Name",
+      "details": "..."
+    }`;
+
+    const result = await localModel.generateContent(prompt);
+    const response = await result.response;
+    let text = response.text();
+    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    res.json(JSON.parse(text));
+  } catch (error) {
+    console.error('Constituency Error:', error);
+    res.status(500).json({ error: 'Failed to fetch local info' });
+  }
+});
+
 app.post('/api/chat', async (req, res) => {
   const { messages } = req.body;
 

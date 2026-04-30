@@ -32,6 +32,30 @@ const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navCo
         >
           📖 {navContent.glossary}
         </button>
+        <button 
+          className={`nav-tab ${currentView === 'tracker' ? 'active' : ''}`}
+          onClick={() => setCurrentView('tracker')}
+          role="tab"
+          aria-selected={currentView === 'tracker'}
+        >
+          ✅ {navContent.tracker}
+        </button>
+        <button 
+          className={`nav-tab ${currentView === 'shield' ? 'active' : ''}`}
+          onClick={() => setCurrentView('shield')}
+          role="tab"
+          aria-selected={currentView === 'shield'}
+        >
+          🛡️ {navContent.shield}
+        </button>
+        <button 
+          className={`nav-tab ${currentView === 'local' ? 'active' : ''}`}
+          onClick={() => setCurrentView('local')}
+          role="tab"
+          aria-selected={currentView === 'local'}
+        >
+          📍 {navContent.local}
+        </button>
       </div>
       <div className="nav-lang">
         <select 

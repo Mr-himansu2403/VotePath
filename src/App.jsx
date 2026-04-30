@@ -5,7 +5,10 @@ import Timeline from './components/Timeline';
 import Chat from './components/Chat';
 import Quiz from './components/Quiz';
 import Glossary from './components/Glossary';
-import { INITIAL_STEPS, INITIAL_QUIZ, INITIAL_GLOSSARY } from './data/electionData';
+import VoterTracker from './components/VoterTracker';
+import FactChecker from './components/FactChecker';
+import ConstituencyGuide from './components/ConstituencyGuide';
+import { INITIAL_STEPS, INITIAL_QUIZ, INITIAL_GLOSSARY, INITIAL_TRACKER } from './data/electionData';
 import { stopSpeaking } from './utils/speech';
 import { VolumeX } from 'lucide-react';
 import axios from 'axios';
@@ -17,6 +20,11 @@ function App() {
   const [steps, setSteps] = useState(INITIAL_STEPS);
   const [quiz, setQuiz] = useState(INITIAL_QUIZ);
   const [glossary, setGlossary] = useState(INITIAL_GLOSSARY);
+  const [tracker, setTracker] = useState(() => {
+    const saved = localStorage.getItem('voter_tracker');
+    return saved ? JSON.parse(saved) : INITIAL_TRACKER;
+  });
+
   const [heroContent, setHeroContent] = useState({
     title: "Understand Democracy, One Step at a Time",
     sub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
@@ -27,8 +35,15 @@ function App() {
   const [navContent, setNavContent] = useState({
     timeline: "Timeline",
     quiz: "Quiz",
-    glossary: "Glossary"
+    glossary: "Glossary",
+    tracker: "My Journey",
+    shield: "Fact-Checker",
+    local: "Local Guide"
   });
+
+  useEffect(() => {
+    localStorage.setItem('voter_tracker', JSON.stringify(tracker));
+  }, [tracker]);
 
   const handleLanguageChange = async (newLang) => {
     if (newLang === 'en') {
@@ -43,11 +58,15 @@ function App() {
       setNavContent({
         timeline: "Timeline",
         quiz: "Quiz",
-        glossary: "Glossary"
+        glossary: "Glossary",
+        tracker: "My Journey",
+        shield: "Fact-Checker",
+        local: "Local Guide"
       });
       setSteps(INITIAL_STEPS);
       setQuiz(INITIAL_QUIZ);
       setGlossary(INITIAL_GLOSSARY);
+      setTracker(INITIAL_TRACKER);
       return;
     }
     
@@ -62,6 +81,7 @@ function App() {
       if (data.steps) setSteps(data.steps);
       if (data.quiz) setQuiz(data.quiz);
       if (data.glossary) setGlossary(data.glossary);
+      if (data.tracker) setTracker(data.tracker);
       return;
     }
 
@@ -80,11 +100,15 @@ function App() {
           nav: {
             timeline: "Timeline",
             quiz: "Quiz",
-            glossary: "Glossary"
+            glossary: "Glossary",
+            tracker: "My Journey",
+            shield: "Fact-Checker",
+            local: "Local Guide"
           },
           steps: INITIAL_STEPS,
           quiz: INITIAL_QUIZ,
-          glossary: INITIAL_GLOSSARY
+          glossary: INITIAL_GLOSSARY,
+          tracker: INITIAL_TRACKER
         },
         targetLang: newLang
       });
@@ -95,6 +119,7 @@ function App() {
       if (data.steps) setSteps(data.steps);
       if (data.quiz) setQuiz(data.quiz);
       if (data.glossary) setGlossary(data.glossary);
+      if (data.tracker) setTracker(data.tracker);
 
       // Save to Cache
       localStorage.setItem(`trans_${newLang}`, JSON.stringify(data));
@@ -146,6 +171,24 @@ function App() {
       {currentView === 'glossary' && (
         <section className="glossary-view animate-in">
           <Glossary glossary={glossary} title={navContent.glossary} lang={lang} />
+        </section>
+      )}
+
+      {currentView === 'tracker' && (
+        <section className="tracker-view animate-in">
+          <VoterTracker tracker={tracker} setTracker={setTracker} title={navContent.tracker} lang={lang} />
+        </section>
+      )}
+
+      {currentView === 'shield' && (
+        <section className="shield-view animate-in">
+          <FactChecker title={navContent.shield} lang={lang} />
+        </section>
+      )}
+
+      {currentView === 'local' && (
+        <section className="local-view animate-in">
+          <ConstituencyGuide title={navContent.local} lang={lang} />
         </section>
       )}
 

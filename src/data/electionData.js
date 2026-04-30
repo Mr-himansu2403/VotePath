@@ -269,3 +269,12 @@ export const INITIAL_GLOSSARY = [
   { term: "Delimitation", def: "The process of redrawing constituency boundaries based on population data from the Census.", badge: "tag-legal", badgeLabel: "Process" },
   { term: "Booth Capturing", def: "A criminal offence where persons illegally take over a polling booth and cast fraudulent votes. Punishable by 1–3 years imprisonment.", badge: "tag-legal", badgeLabel: "Offence" }
 ];
+
+export const INITIAL_TRACKER = [
+  { id: 1, task: "Check if name is in Electoral Roll (voters.eci.gov.in)", completed: false, tip: "Check using your EPIC number or name details." },
+  { id: 2, task: "Locate my Polling Station", completed: false, tip: "Use the Voter Helpline App to find your exact booth." },
+  { id: 3, task: "Confirm Polling Date for my Constituency", completed: false, tip: "Elections are held in phases; check your specific date." },
+  { id: 4, task: "Prepare valid Photo ID", completed: false, tip: "EPIC card is best, but Aadhaar, DL, or Passport also work." },
+  { id: 5, task: "Know the Candidates", completed: false, tip: "Read candidate affidavits on the ECI KYC app." },
+  { id: 6, task: "Cast my Vote on Polling Day", completed: false, tip: "Polls usually open at 7 AM. Go early to avoid queues!" }
+];
