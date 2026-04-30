@@ -8,6 +8,7 @@ import Glossary from './components/Glossary';
 import VoterTracker from './components/VoterTracker';
 import FactChecker from './components/FactChecker';
 import ConstituencyGuide from './components/ConstituencyGuide';
+import BackgroundEffects from './components/BackgroundEffects';
 import { INITIAL_STEPS, INITIAL_QUIZ, INITIAL_GLOSSARY, INITIAL_TRACKER } from './data/electionData';
 import { stopSpeaking } from './utils/speech';
 import { VolumeX } from 'lucide-react';
@@ -132,10 +133,7 @@ function App() {
 
   return (
     <div id="app">
-      <div className="bg-grid"></div>
-      <div className="bg-orb orb-1"></div>
-      <div className="bg-orb orb-2"></div>
-      <div className="bg-orb orb-3"></div>
+      <BackgroundEffects />
 
       <Navbar 
         currentView={currentView} 

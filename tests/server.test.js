@@ -21,6 +21,16 @@ describe('Server Endpoints', () => {
     expect(res.statusCode).toBe(400);
   });
 
+  it('POST /api/factcheck should handle validation', async () => {
+    const res = await request(app).post('/api/factcheck').send({ lang: 'en' });
+    expect(res.statusCode).toBe(400);
+  });
+
+  it('POST /api/constituency should handle validation', async () => {
+    const res = await request(app).post('/api/constituency').send({ pincode: '123', lang: 'en' });
+    expect(res.statusCode).toBe(400);
+  });
+
   it('Catch-all route should serve index.html for non-api routes', async () => {
     const res = await request(app).get('/any-route');
     expect(res.statusCode).toEqual(200);

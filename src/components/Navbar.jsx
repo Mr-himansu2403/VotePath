@@ -1,11 +1,15 @@
 import React from 'react';
+import Clock from './Clock';
 
 const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navContent, isTranslating }) => {
   return (
     <nav>
-      <div className="nav-brand" onClick={() => setCurrentView('hero')}>
-        <span className="dot"></span>
-        {isTranslating ? "Translating..." : "VotePath"}
+      <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
+        <div className="nav-brand" onClick={() => setCurrentView('hero')}>
+          <span className="dot"></span>
+          {isTranslating ? "Translating..." : "VotePath"}
+        </div>
+        <Clock />
       </div>
       <div className="nav-tabs" role="tablist">
         <button 
