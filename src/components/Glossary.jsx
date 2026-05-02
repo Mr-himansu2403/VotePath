@@ -12,10 +12,12 @@ const Glossary = ({ glossary, title, lang }) => {
       <div className="glossary-grid">
         {glossary.map((g, i) => (
           <div key={i} className="gloss-card animate-in" style={{ animationDelay: `${i * 0.04}s` }}>
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}
+            >
               <div className="gloss-term">{g.term}</div>
-              <button 
-                className="voice-btn voice-btn-sm" 
+              <button
+                className="voice-btn voice-btn-sm"
                 onClick={() => speak(`${g.term}. ${g.def}`, lang)}
                 title="Listen"
               >
@@ -23,7 +25,15 @@ const Glossary = ({ glossary, title, lang }) => {
               </button>
             </div>
             <div className="gloss-def">{g.def}</div>
-            <div className={`gloss-badge ${g.badge}`} style={{ background: 'transparent', border: '1px solid currentColor', fontSize: '0.68rem', padding: '2px 8px' }}>
+            <div
+              className={`gloss-badge ${g.badge}`}
+              style={{
+                background: 'transparent',
+                border: '1px solid currentColor',
+                fontSize: '0.68rem',
+                padding: '2px 8px',
+              }}
+            >
               {g.badgeLabel}
             </div>
           </div>

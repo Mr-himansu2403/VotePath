@@ -1,18 +1,25 @@
 import React from 'react';
 import Clock from './Clock';
 
-const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navContent, isTranslating }) => {
+const Navbar = ({
+  currentView,
+  setCurrentView,
+  lang,
+  handleLanguageChange,
+  navContent,
+  isTranslating,
+}) => {
   return (
     <nav>
       <div style={{ display: 'flex', alignItems: 'center', gap: '1.5rem' }}>
         <div className="nav-brand" onClick={() => setCurrentView('hero')}>
           <span className="dot"></span>
-          {isTranslating ? "Translating..." : "VotePath"}
+          {isTranslating ? 'Translating...' : 'VotePath'}
         </div>
         <Clock />
       </div>
       <div className="nav-tabs" role="tablist">
-        <button 
+        <button
           className={`nav-tab ${currentView === 'main' ? 'active' : ''}`}
           onClick={() => setCurrentView('main')}
           role="tab"
@@ -20,7 +27,7 @@ const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navCo
         >
           📋 {navContent.timeline}
         </button>
-        <button 
+        <button
           className={`nav-tab ${currentView === 'quiz' ? 'active' : ''}`}
           onClick={() => setCurrentView('quiz')}
           role="tab"
@@ -28,7 +35,7 @@ const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navCo
         >
           🧠 {navContent.quiz}
         </button>
-        <button 
+        <button
           className={`nav-tab ${currentView === 'glossary' ? 'active' : ''}`}
           onClick={() => setCurrentView('glossary')}
           role="tab"
@@ -36,7 +43,7 @@ const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navCo
         >
           📖 {navContent.glossary}
         </button>
-        <button 
+        <button
           className={`nav-tab ${currentView === 'tracker' ? 'active' : ''}`}
           onClick={() => setCurrentView('tracker')}
           role="tab"
@@ -44,7 +51,7 @@ const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navCo
         >
           ✅ {navContent.tracker}
         </button>
-        <button 
+        <button
           className={`nav-tab ${currentView === 'shield' ? 'active' : ''}`}
           onClick={() => setCurrentView('shield')}
           role="tab"
@@ -52,7 +59,7 @@ const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navCo
         >
           🛡️ {navContent.shield}
         </button>
-        <button 
+        <button
           className={`nav-tab ${currentView === 'local' ? 'active' : ''}`}
           onClick={() => setCurrentView('local')}
           role="tab"
@@ -62,8 +69,8 @@ const Navbar = ({ currentView, setCurrentView, lang, handleLanguageChange, navCo
         </button>
       </div>
       <div className="nav-lang">
-        <select 
-          value={lang} 
+        <select
+          value={lang}
           onChange={(e) => handleLanguageChange(e.target.value)}
           className="lang-select"
           aria-label="Select Language"

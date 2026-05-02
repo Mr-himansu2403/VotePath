@@ -37,11 +37,13 @@ const FactChecker = ({ title, lang }) => {
     <div className="view-container">
       <div className="view-header">
         <div className="view-heading">{title}</div>
-        <div className="view-subheading">CivicAI Shield: Combatting election misinformation with official data</div>
+        <div className="view-subheading">
+          CivicAI Shield: Combatting election misinformation with official data
+        </div>
       </div>
 
       <div className="fact-input-card">
-        <textarea 
+        <textarea
           className="fact-textarea"
           placeholder="Paste an election-related claim or news here to verify..."
           value={claim}
@@ -57,8 +59,17 @@ const FactChecker = ({ title, lang }) => {
           <div style={{ display: 'flex', gap: '20px', alignItems: 'flex-start' }}>
             <div className="verdict-icon">{getIcon()}</div>
             <div style={{ flex: 1 }}>
-              <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '10px' }}>
-                <div className={`verdict-badge ${result.verdict.toLowerCase()}`}>{result.verdict}</div>
+              <div
+                style={{
+                  display: 'flex',
+                  justifyContent: 'space-between',
+                  alignItems: 'center',
+                  marginBottom: '10px',
+                }}
+              >
+                <div className={`verdict-badge ${result.verdict.toLowerCase()}`}>
+                  {result.verdict}
+                </div>
                 <button className="voice-btn voice-btn-sm" onClick={handleListen}>
                   <Volume2 size={18} />
                 </button>

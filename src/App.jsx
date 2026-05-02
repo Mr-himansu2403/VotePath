@@ -9,7 +9,12 @@ import VoterTracker from './components/VoterTracker';
 import FactChecker from './components/FactChecker';
 import ConstituencyGuide from './components/ConstituencyGuide';
 import BackgroundEffects from './components/BackgroundEffects';
-import { INITIAL_STEPS, INITIAL_QUIZ, INITIAL_GLOSSARY, INITIAL_TRACKER } from './data/electionData';
+import {
+  INITIAL_STEPS,
+  INITIAL_QUIZ,
+  INITIAL_GLOSSARY,
+  INITIAL_TRACKER,
+} from './data/electionData';
 import { stopSpeaking } from './utils/speech';
 import { VolumeX } from 'lucide-react';
 import axios from 'axios';
@@ -27,19 +32,19 @@ function App() {
   });
 
   const [heroContent, setHeroContent] = useState({
-    title: "Understand Democracy, One Step at a Time",
+    title: 'Understand Democracy, One Step at a Time',
     sub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
-    exploreBtn: "Explore the Journey",
-    testBtn: "Test Your Knowledge",
-    stats: ["Registered Voters", "Election Phases", "Lok Sabha Seats", "Days Process"]
+    exploreBtn: 'Explore the Journey',
+    testBtn: 'Test Your Knowledge',
+    stats: ['Registered Voters', 'Election Phases', 'Lok Sabha Seats', 'Days Process'],
   });
   const [navContent, setNavContent] = useState({
-    timeline: "Timeline",
-    quiz: "Quiz",
-    glossary: "Glossary",
-    tracker: "My Journey",
-    shield: "Fact-Checker",
-    local: "Local Guide"
+    timeline: 'Timeline',
+    quiz: 'Quiz',
+    glossary: 'Glossary',
+    tracker: 'My Journey',
+    shield: 'Fact-Checker',
+    local: 'Local Guide',
   });
 
   useEffect(() => {
@@ -50,19 +55,19 @@ function App() {
     if (newLang === 'en') {
       setLang('en');
       setHeroContent({
-        title: "Understand Democracy, One Step at a Time",
+        title: 'Understand Democracy, One Step at a Time',
         sub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
-        exploreBtn: "Explore the Journey",
-        testBtn: "Test Your Knowledge",
-        stats: ["Registered Voters", "Election Phases", "Lok Sabha Seats", "Days Process"]
+        exploreBtn: 'Explore the Journey',
+        testBtn: 'Test Your Knowledge',
+        stats: ['Registered Voters', 'Election Phases', 'Lok Sabha Seats', 'Days Process'],
       });
       setNavContent({
-        timeline: "Timeline",
-        quiz: "Quiz",
-        glossary: "Glossary",
-        tracker: "My Journey",
-        shield: "Fact-Checker",
-        local: "Local Guide"
+        timeline: 'Timeline',
+        quiz: 'Quiz',
+        glossary: 'Glossary',
+        tracker: 'My Journey',
+        shield: 'Fact-Checker',
+        local: 'Local Guide',
       });
       setSteps(INITIAL_STEPS);
       setQuiz(INITIAL_QUIZ);
@@ -70,7 +75,7 @@ function App() {
       setTracker(INITIAL_TRACKER);
       return;
     }
-    
+
     setLang(newLang);
 
     // Check Cache
@@ -92,26 +97,26 @@ function App() {
       const res = await axios.post('/api/translate', {
         text: {
           hero: {
-            title: "Understand Democracy, One Step at a Time",
+            title: 'Understand Democracy, One Step at a Time',
             sub: "An intelligent guide to India's electoral process — from voter registration to the declaration of results. Ask questions, explore timelines, and become a more informed citizen.",
-            exploreBtn: "Explore the Journey",
-            testBtn: "Test Your Knowledge",
-            stats: ["Registered Voters", "Election Phases", "Lok Sabha Seats", "Days Process"]
+            exploreBtn: 'Explore the Journey',
+            testBtn: 'Test Your Knowledge',
+            stats: ['Registered Voters', 'Election Phases', 'Lok Sabha Seats', 'Days Process'],
           },
           nav: {
-            timeline: "Timeline",
-            quiz: "Quiz",
-            glossary: "Glossary",
-            tracker: "My Journey",
-            shield: "Fact-Checker",
-            local: "Local Guide"
+            timeline: 'Timeline',
+            quiz: 'Quiz',
+            glossary: 'Glossary',
+            tracker: 'My Journey',
+            shield: 'Fact-Checker',
+            local: 'Local Guide',
           },
           steps: INITIAL_STEPS,
           quiz: INITIAL_QUIZ,
           glossary: INITIAL_GLOSSARY,
-          tracker: INITIAL_TRACKER
+          tracker: INITIAL_TRACKER,
         },
-        targetLang: newLang
+        targetLang: newLang,
       });
 
       const data = res.data;
@@ -125,7 +130,7 @@ function App() {
       // Save to Cache
       localStorage.setItem(`trans_${newLang}`, JSON.stringify(data));
     } catch (e) {
-      console.error("Translation failed", e);
+      console.error('Translation failed', e);
     } finally {
       setIsTranslating(false);
     }
@@ -135,20 +140,20 @@ function App() {
     <div id="app">
       <BackgroundEffects />
 
-      <Navbar 
-        currentView={currentView} 
-        setCurrentView={setCurrentView} 
-        lang={lang} 
+      <Navbar
+        currentView={currentView}
+        setCurrentView={setCurrentView}
+        lang={lang}
         handleLanguageChange={handleLanguageChange}
         navContent={navContent}
         isTranslating={isTranslating}
       />
 
       {currentView === 'hero' && (
-        <Hero 
-          content={heroContent} 
-          onExplore={() => setCurrentView('main')} 
-          onQuiz={() => setCurrentView('quiz')} 
+        <Hero
+          content={heroContent}
+          onExplore={() => setCurrentView('main')}
+          onQuiz={() => setCurrentView('quiz')}
           lang={lang}
         />
       )}
@@ -174,7 +179,12 @@ function App() {
 
       {currentView === 'tracker' && (
         <section className="tracker-view animate-in">
-          <VoterTracker tracker={tracker} setTracker={setTracker} title={navContent.tracker} lang={lang} />
+          <VoterTracker
+            tracker={tracker}
+            setTracker={setTracker}
+            title={navContent.tracker}
+            lang={lang}
+          />
         </section>
       )}
 
@@ -190,8 +200,8 @@ function App() {
         </section>
       )}
 
-      <button 
-        className="floating-stop-btn" 
+      <button
+        className="floating-stop-btn"
         onClick={stopSpeaking}
         title="Stop Audio"
         aria-label="Stop Audio"

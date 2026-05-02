@@ -15,12 +15,12 @@ const Quiz = ({ quiz, lang }) => {
     if (answered) return;
     setAnswered(true);
     setSelected(idx);
-    if (idx === q.ans) setScore(prev => prev + 1);
+    if (idx === q.ans) setScore((prev) => prev + 1);
   };
 
   const nextQuestion = () => {
     if (index + 1 < quiz.length) {
-      setIndex(prev => prev + 1);
+      setIndex((prev) => prev + 1);
       setAnswered(false);
       setSelected(null);
     } else {
@@ -46,7 +46,9 @@ const Quiz = ({ quiz, lang }) => {
             <div className="score-num">{score}</div>
             <div className="score-total">/ {quiz.length}</div>
             <div style={{ fontSize: '1.5rem', fontWeight: 600, margin: '0.75rem 0' }}>{pct}%</div>
-            <button className="btn-primary" onClick={restart}>Take Quiz Again</button>
+            <button className="btn-primary" onClick={restart}>
+              Take Quiz Again
+            </button>
           </div>
         </div>
       </div>
@@ -61,9 +63,11 @@ const Quiz = ({ quiz, lang }) => {
       </div>
       <div className="quiz-card animate-in" key={index}>
         <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
-          <div className="quiz-num">QUESTION {index + 1} / {quiz.length} &nbsp;·&nbsp; Score: {score}</div>
-          <button 
-            className="voice-btn voice-btn-sm" 
+          <div className="quiz-num">
+            QUESTION {index + 1} / {quiz.length} &nbsp;·&nbsp; Score: {score}
+          </div>
+          <button
+            className="voice-btn voice-btn-sm"
             onClick={() => speak(`${q.q}. Options are. ${q.opts.join('. ')}`, lang)}
             title="Listen"
           >
@@ -73,7 +77,7 @@ const Quiz = ({ quiz, lang }) => {
         <div className="quiz-q">{q.q}</div>
         <div className="quiz-options">
           {q.opts.map((o, i) => (
-            <button 
+            <button
               key={i}
               className={`quiz-opt ${answered ? (i === q.ans ? 'correct' : i === selected ? 'wrong' : '') : ''}`}
               onClick={() => handleAnswer(i)}
@@ -85,10 +89,12 @@ const Quiz = ({ quiz, lang }) => {
         </div>
         {answered && (
           <div className="quiz-explanation animate-in">
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}>
+            <div
+              style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start' }}
+            >
               <div>💡 {q.exp}</div>
-              <button 
-                className="voice-btn voice-btn-sm" 
+              <button
+                className="voice-btn voice-btn-sm"
                 onClick={() => speak(q.exp, lang)}
                 title="Listen to explanation"
               >
@@ -96,7 +102,11 @@ const Quiz = ({ quiz, lang }) => {
               </button>
             </div>
             <br />
-            <button className="btn-secondary" style={{ padding: '0.4rem 1rem', fontSize: '0.8rem' }} onClick={nextQuestion}>
+            <button
+              className="btn-secondary"
+              style={{ padding: '0.4rem 1rem', fontSize: '0.8rem' }}
+              onClick={nextQuestion}
+            >
               Next Question →
             </button>
           </div>

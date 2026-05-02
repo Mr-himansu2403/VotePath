@@ -19,9 +19,9 @@ const Hero = ({ content, onExplore, onQuiz, lang }) => {
             </React.Fragment>
           ))}
         </h1>
-        <button 
-          className="voice-btn" 
-          onClick={handleListen} 
+        <button
+          className="voice-btn"
+          onClick={handleListen}
           title="Listen"
           aria-label="Listen to description"
         >

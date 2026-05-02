@@ -31,21 +31,27 @@ const ConstituencyGuide = ({ title, lang }) => {
     <div className="view-container">
       <div className="view-header">
         <div className="view-heading">{title}</div>
-        <div className="view-subheading">Get localized election info based on your Indian Pincode</div>
+        <div className="view-subheading">
+          Get localized election info based on your Indian Pincode
+        </div>
       </div>
 
       <div className="local-input-card">
         <div className="pincode-input-group">
           <MapPin size={20} className="input-icon" />
-          <input 
-            type="text" 
+          <input
+            type="text"
             className="pincode-input"
             placeholder="Enter 6-digit Pincode (e.g., 110001)"
             maxLength={6}
             value={pincode}
             onChange={(e) => setPincode(e.target.value.replace(/\D/g, ''))}
           />
-          <button className="btn-search" onClick={lookup} disabled={loading || pincode.length !== 6}>
+          <button
+            className="btn-search"
+            onClick={lookup}
+            disabled={loading || pincode.length !== 6}
+          >
             {loading ? <Loader2 className="animate-spin" /> : <Search size={20} />}
           </button>
         </div>

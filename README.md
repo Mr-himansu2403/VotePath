@@ -9,12 +9,14 @@ VotePath focuses on empowering citizens with accurate, neutral, and easily acces
 ## 🛠️ Approach and Logic
 
 ### 1. Architectural Overview
+
 - **Frontend:** Built with **React 18** and **Vite**. This ensures a highly responsive user experience, robust state management for multi-language support, and modular component architecture.
 - **Styling:** Utilizes modern CSS with **Framer Motion** for smooth, professional animations.
 - **Backend:** A **Node.js/Express** server that handles production build hosting and provides a secure, validated API endpoint for the AI assistant.
 - **AI Integration:** Utilizes the **Google Generative AI SDK** (Gemini 1.5 Flash) for high-speed, intelligent natural language processing.
 
 ### 2. Core Features
+
 - **Election Roadmap:** A structured, 10-step interactive timeline explaining every phase from announcement to government formation.
 - **Interactive Quiz:** A dynamic knowledge check with instant feedback and explanations to reinforce civic learning.
 - **CivicAI Assistant:** A context-aware chatbot specifically tuned with system instructions to provide politically neutral, accurate information about ECI functions, voter rights, and technology like EVM/VVPAT.
@@ -22,6 +24,7 @@ VotePath focuses on empowering citizens with accurate, neutral, and easily acces
 - **Comprehensive Multi-language Support:** Supports 13+ Indian languages (including Odia, Hindi, Bengali, etc.) with full-site content translation powered by Gemini AI.
 
 ### 3. Engineering Excellence
+
 - **Security:** Implemented server-side input validation and secure environment variable management for API keys.
 - **Quality:** Integrated **ESLint** and **Prettier** for consistent code style and high maintenance standards.
 - **Testing:** Comprehensive automated testing suite using **Jest** and **Supertest** to verify server stability and API logic.
@@ -44,4 +47,5 @@ VotePath focuses on empowering citizens with accurate, neutral, and easily acces
 - **Environment:** Designed to be run in a Node.js environment (v18+) for the backend and any modern evergreen browser for the frontend.
 
 ---
-*Built for Challenge 2 — Demonstrating the power of AI in Civic Tech.*
+
+_Built for Challenge 2 — Demonstrating the power of AI in Civic Tech._

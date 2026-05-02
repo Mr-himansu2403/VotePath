@@ -1,6 +1,6 @@
 export const speak = (text, lang) => {
   if (!window.speechSynthesis) {
-    console.error("Speech synthesis not supported");
+    console.error('Speech synthesis not supported');
     return;
   }
 
@@ -8,22 +8,22 @@ export const speak = (text, lang) => {
   window.speechSynthesis.cancel();
 
   const utterance = new SpeechSynthesisUtterance(text);
-  
+
   // Map our language codes to BCP 47 tags
   const langMap = {
-    'en': 'en-US',
-    'hi': 'hi-IN',
-    'bn': 'bn-IN',
-    'te': 'te-IN',
-    'mr': 'mr-IN',
-    'ta': 'ta-IN',
-    'gu': 'gu-IN',
-    'kn': 'kn-IN',
-    'ml': 'ml-IN',
-    'pa': 'pa-IN',
-    'as': 'as-IN',
-    'mai': 'hi-IN', // Fallback for Maithili
-    'or': 'or-IN'
+    en: 'en-US',
+    hi: 'hi-IN',
+    bn: 'bn-IN',
+    te: 'te-IN',
+    mr: 'mr-IN',
+    ta: 'ta-IN',
+    gu: 'gu-IN',
+    kn: 'kn-IN',
+    ml: 'ml-IN',
+    pa: 'pa-IN',
+    as: 'as-IN',
+    mai: 'hi-IN', // Fallback for Maithili
+    or: 'or-IN',
   };
 
   utterance.lang = langMap[lang] || 'en-US';

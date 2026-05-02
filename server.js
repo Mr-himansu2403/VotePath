@@ -13,7 +13,7 @@ const apiLimiter = rateLimit({
   max: 100, // Limit each IP to 100 requests per windowMs
   standardHeaders: true,
   legacyHeaders: false,
-  message: { error: 'Too many requests, please try again later.' }
+  message: { error: 'Too many requests, please try again later.' },
 });
 
 app.use(cors());
@@ -71,17 +71,20 @@ app.post('/api/translate', async (req, res) => {
     const result = await translationModel.generateContent(prompt);
     const response = await result.response;
     let translatedText = response.text();
-    
+
     // Robust JSON cleaning
-    translatedText = translatedText.replace(/```json/g, '').replace(/```/g, '').trim();
-    
+    translatedText = translatedText
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
+
     // Ensure we only have the JSON part if AI added text
     const jsonStart = translatedText.indexOf('{');
     const jsonEnd = translatedText.lastIndexOf('}');
     if (jsonStart !== -1 && jsonEnd !== -1) {
       translatedText = translatedText.substring(jsonStart, jsonEnd + 1);
     }
-    
+
     res.json(JSON.parse(translatedText));
   } catch (error) {
     console.error('Translation Error:', error);
@@ -115,7 +118,10 @@ app.post('/api/factcheck', async (req, res) => {
     const result = await factModel.generateContent(prompt);
     const response = await result.response;
     let text = response.text();
-    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    text = text
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
     res.json(JSON.parse(text));
   } catch (error) {
     console.error('FactCheck Error:', error);
@@ -150,7 +156,10 @@ app.post('/api/constituency', async (req, res) => {
     const result = await localModel.generateContent(prompt);
     const response = await result.response;
     let text = response.text();
-    text = text.replace(/```json/g, '').replace(/```/g, '').trim();
+    text = text
+      .replace(/```json/g, '')
+      .replace(/```/g, '')
+      .trim();
     res.json(JSON.parse(text));
   } catch (error) {
     console.error('Constituency Error:', error);

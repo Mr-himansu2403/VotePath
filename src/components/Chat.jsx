@@ -5,14 +5,18 @@ import { speak } from '../utils/speech';
 
 const Chat = ({ lang }) => {
   const [messages, setMessages] = useState([
-    { role: 'assistant', content: "Namaste! 🙏 I'm CivicAI, your election guide. I can explain India's election process, voter rights, candidate rules, EVMs, and much more. What would you like to know?" }
+    {
+      role: 'assistant',
+      content:
+        "Namaste! 🙏 I'm CivicAI, your election guide. I can explain India's election process, voter rights, candidate rules, EVMs, and much more. What would you like to know?",
+    },
   ]);
   const [input, setInput] = useState('');
   const [isTyping, setIsTyping] = useState(false);
   const chatEndRef = useRef(null);
 
   const scrollToBottom = () => {
-    chatEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    chatEndRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
 
   useEffect(scrollToBottom, [messages, isTyping]);
@@ -28,12 +32,20 @@ const Chat = ({ lang }) => {
 
     try {
       const response = await axios.post('/api/chat', {
-        messages: newMessages.slice(-10)
+        messages: newMessages.slice(-10),
       });
-      const reply = response.data.content?.[0]?.text || "I'm having trouble connecting. Please try again!";
-      setMessages(prev => [...prev, { role: 'assistant', content: reply }]);
-    } catch (e) {
-      setMessages(prev => [...prev, { role: 'assistant', content: "⚠️ I'm having trouble connecting to my knowledge base right now. Please check your internet connection and try again!" }]);
+      const reply =
+        response.data.content?.[0]?.text || "I'm having trouble connecting. Please try again!";
+      setMessages((prev) => [...prev, { role: 'assistant', content: reply }]);
+    } catch {
+      setMessages((prev) => [
+        ...prev,
+        {
+          role: 'assistant',
+          content:
+            "⚠️ I'm having trouble connecting to my knowledge base right now. Please check your internet connection and try again!",
+        },
+      ]);
     } finally {
       setIsTyping(false);
     }
@@ -53,10 +65,18 @@ const Chat = ({ lang }) => {
         </div>
       </div>
       <div className="quick-prompts">
-        <span className="qp" onClick={() => sendMessage('How do I register to vote in India?')}>🪪 Register to vote</span>
-        <span className="qp" onClick={() => sendMessage('What is the Model Code of Conduct?')}>📜 Model Code</span>
-        <span className="qp" onClick={() => sendMessage('How does EVM voting work?')}>🗳️ EVM process</span>
-        <span className="qp" onClick={() => sendMessage('Who is eligible to be a candidate?')}>👤 Candidate rules</span>
+        <span className="qp" onClick={() => sendMessage('How do I register to vote in India?')}>
+          🪪 Register to vote
+        </span>
+        <span className="qp" onClick={() => sendMessage('What is the Model Code of Conduct?')}>
+          📜 Model Code
+        </span>
+        <span className="qp" onClick={() => sendMessage('How does EVM voting work?')}>
+          🗳️ EVM process
+        </span>
+        <span className="qp" onClick={() => sendMessage('Who is eligible to be a candidate?')}>
+          👤 Candidate rules
+        </span>
       </div>
       <div className="chat-messages">
         {messages.map((m, i) => (
@@ -65,10 +85,15 @@ const Chat = ({ lang }) => {
               {m.role === 'assistant' ? '🤖' : '👤'}
             </div>
             <div className="msg-bubble" style={{ position: 'relative' }}>
-              {m.content.split('\n').map((line, j) => <React.Fragment key={j}>{line}<br/></React.Fragment>)}
+              {m.content.split('\n').map((line, j) => (
+                <React.Fragment key={j}>
+                  {line}
+                  <br />
+                </React.Fragment>
+              ))}
               {m.role === 'assistant' && (
-                <button 
-                  className="voice-btn voice-btn-sm" 
+                <button
+                  className="voice-btn voice-btn-sm"
                   onClick={() => handleSpeak(m.content)}
                   style={{ position: 'absolute', right: '-35px', top: '0' }}
                   title="Listen"
@@ -94,14 +119,16 @@ const Chat = ({ lang }) => {
         <div ref={chatEndRef} />
       </div>
       <div className="chat-input-area">
-        <input 
+        <input
           className="chat-input"
           value={input}
           onChange={(e) => setInput(e.target.value)}
           onKeyDown={(e) => e.key === 'Enter' && sendMessage()}
           placeholder="Ask about elections..."
         />
-        <button className="btn-send" onClick={() => sendMessage()} disabled={isTyping}>➤</button>
+        <button className="btn-send" onClick={() => sendMessage()} disabled={isTyping}>
+          ➤
+        </button>
       </div>
     </div>
   );
